@@ -35,13 +35,16 @@ export const AuthProvider = ({ children }) => {
       setLoginCredential({ email, password });
       const response = await loginService(email, password);
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         setLoginLoading(false);
-        toast.success(`Welcome back, ${response.data.foundUser.firstName}!`);
-        const encodedToken = response.data.encodedToken;
-        const firstName = response.data.foundUser.firstName;
-        const lastName = response.data.foundUser.lastName;
-        const email = response.data.foundUser.email;
+        // Extract name from response and split it into first and last name
+        const name = response.data.user.name;
+        const firstName = name.split(' ')[0];
+        const lastName = name.split(' ').slice(1).join(' ');
+        const email = response.data.user.email;
+        const encodedToken = response.data.token;
+
+        toast.success(`Welcome back, ${firstName}!`);
 
         setAuth({
           token: encodedToken,
@@ -58,11 +61,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("email", email);
         setLoginCredential({ email: "", password: "" });
 
-        navigate(location?.state?.from.pathname || "/");
+        navigate(location?.state?.from?.pathname || "/");
       }
     } catch (error) {
       setLoginLoading(false);
-      setError(error.response.data.errors[0]);
+      setError(error.response?.data?.message || "Login failed. Please try again.");
     } finally {
       setLoginLoading(false);
     }

@@ -42,33 +42,37 @@ export const Signup = () => {
         if (response.status === 201) {
           setSignUpLoading(false);
           toast.success(
-            `You've successfully signed up, ${response.data.createdUser.firstName}`
+            `You've successfully signed up, ${response.data.user.name}`
           );
-          const encodedToken = response.data.encodedToken;
-          const firstName = response.data.createdUser.firstName;
-          const lastName = response.data.createdUser.lastName;
-          const email = response.data.createdUser.email;
+          const encodedToken = response.data.token;
+          const name = response.data.user.name;
+          const email = response.data.user.email;
 
           setAuth({
             token: encodedToken,
             isAuth: true,
-            firstName,
-            lastName,
+            firstName: name.split(' ')[0],
+            lastName: name.split(' ').slice(1).join(' '),
             email,
           });
 
           localStorage.setItem("token", encodedToken);
           localStorage.setItem("isAuth", true);
-          localStorage.setItem("firstName", firstName);
-          localStorage.setItem("lastName", lastName);
+          localStorage.setItem("firstName", name.split(' ')[0]);
+          localStorage.setItem("lastName", name.split(' ').slice(1).join(' '));
           localStorage.setItem("email", email);
 
           navigate("/");
         }
+      } else {
+        setSignUpLoading(false);
+        setError(["Passwords do not match"]);
       }
     } catch (error) {
       setSignUpLoading(false);
-      setError(error.response.data.errors);
+      setError(error.response?.data?.message 
+        ? [error.response.data.message] 
+        : ["Registration failed. Please try again."]);
     } finally {
       setSignUpLoading(false);
     }
@@ -205,7 +209,7 @@ export const Signup = () => {
             <input value="Sign Up" type="submit" />
             <button
               onClick={(e) => {
-                loginHandler(e, "aniketsaini65@gmail.com", "aniketSaini258");
+                loginHandler(e, "test@example.com", "password123");
               }}
             >
               Login with Test Credentials

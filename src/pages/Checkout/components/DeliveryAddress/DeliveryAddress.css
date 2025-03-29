@@ -1,40 +1,72 @@
 .delivery-address-container {
-  border-top: 1px solid rgb(231, 231, 231);
+  color: #222;
+  background-color: white;
   padding: 15px;
-  margin: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 20px 0;
+  transition: all 0.3s ease;
+}
+
+.delivery-address-container:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.delivery-address-container p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 .delivery-address-description {
   display: flex;
   flex-direction: column;
-  color: grey;
+  gap: 10px;
 }
+
+.delivery-address-description .name,
+.delivery-address-description .address,
+.delivery-address-description .contact {
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border-left: 3px solid #4CAF50;
+}
+
 .delivery-address-description .name {
-  margin-bottom: 15px;
+  font-weight: bold;
 }
 
-.delivery-address-description .address {
-  margin-bottom: 10px;
-}
-
-.delivery-address-container p {
-  color: grey;
-  margin-bottom: 15px;
-  font-weight: bolder;
+.delivery-address-description .contact {
+  margin-bottom: 20px;
 }
 
 .place-order-btn {
-  border: none;
+  background-color: #4CAF50;
   color: white;
-  background-color: var(--primary-color);
-  padding: 12px 36px;
-  border-radius: 10px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
   font-weight: 600;
-  font-size: 1.1rem;
-  margin-top: 50px;
+  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;
 }
 
 .place-order-btn:hover {
-  cursor: pointer;
-  background-color: black;
+  background-color: #388E3C;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .delivery-address-container {
+    padding: 12px;
+  }
+  
+  .delivery-address-container p {
+    font-size: 1.1rem;
+  }
 }
